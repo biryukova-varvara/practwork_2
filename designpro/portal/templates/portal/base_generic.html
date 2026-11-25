@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Design.pro</title>
-    </head>
+</head>
 <body>
     <ul class="sidebar-nav">
       <div class="container">
@@ -12,9 +12,9 @@
         <span>{{ user.username }}</span>
         <li><a href="{% url 'profile' %}">Ваш профиль</a></li>
         <li>
-              <form method="post" action="{% url 'logout' %}" class="d-inline">
+              <form method="post" action="{% url 'logout' %}" >
                 {% csrf_token %}
-                <button type="submit" class="btn btn-link nav-link">Выход</button>
+                <button type="submit">Выход</button>
               </form>
         </li>
         {% else %}
@@ -23,6 +23,6 @@
         {% endif %}
       </div>
     </ul>
-    <div class="col-sm-10 ">{% block content %}{% endblock %}
+    <div>{% block content %}{% endblock %}
 </body>
 </html>
