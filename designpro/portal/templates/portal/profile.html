@@ -23,7 +23,7 @@
                 {% if req.status == 'new' %}
                 <a href="{% url 'delete_request' req.pk %}">Удалить</a>
                 {% else %}
-                <span>В работе</span>
+                <span>Эту заявку нельзя удалить</span>
                 {% endif %}
             </td>
         </tr>

@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm
+from .models import Request
 
 def home(request):
-    return render(request, 'portal/home.html')
+    done_requests = Request.objects.filter(status='done').order_by('-created_at')
+    context = {
+        'done_requests': done_requests,
+    }
+    return render(request, 'portal/home.html', context)
 
 def register(request):
     if request.method == 'POST':

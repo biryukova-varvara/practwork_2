@@ -5,4 +5,32 @@
 {% if not user.is_authenticated %}
     <p>Пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'registration' %}">зарегистрируйтесь</a>, чтобы создавать заявки.</p>
 {% endif %}
+
+<h3>Наши последние выполненные работы:</h3>
+<div>
+    {% for req in done_requests %}
+    <div>
+        <div>
+            {% if req.photo %}
+                <img src="{{ req.photo.url }}" alt="{{ req.title }}">
+            {% else %}
+                <div>
+                    Нет фото
+                </div>
+            {% endif %}
+            <div>
+                <h5>{{ req.title }}</h5>
+                <p>
+                    <strong>Дата:</strong> {{ req.created_at|date:"d.m.Y" }}<br>
+                    <strong>Категория:</strong> {{ req.category.name }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div>
+        <p class="text-muted">Пока нет выполненных заявок.</p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
