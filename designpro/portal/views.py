@@ -68,3 +68,56 @@ def delete_request(request, pk):
         return redirect('profile')
 
     return render(request, 'portal/confirm_request_delete.html', {'req': req})
+
+
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from .models import Request, Category
+from .forms import ChangeStatusToInProgressForm, ChangeStatusToDoneForm
+
+
+@staff_member_required
+def admin_requests(request):
+    all_requests = Request.objects.all().order_by('-created_at')
+    return render(request, 'admin/admin_requests.html', {'requests': all_requests})
+
+@staff_member_required
+def change_status(request, pk):
+    req = get_object_or_404(Request, pk=pk)
+
+    if req.status == 'done':
+        messages.error(request, 'Смена статуса невозможна: заявка уже выполнена.')
+        return redirect('admin_requests')
+
+    if request.method == 'POST':
+        if 'to_in_progress' in request.POST:
+            if req.status == 'in_progress':
+                messages.warning(request, 'Заявка уже находится в работе.')
+                return redirect('admin_requests')
+
+            form = ChangeStatusToInProgressForm(request.POST)
+            if form.is_valid():
+                req.status = 'in_progress'
+                req.comment = form.cleaned_data['comment']
+                req.save()
+                messages.success(request, 'Заявка переведена в статус «Принято в работу».')
+                return redirect('admin_requests')
+
+        elif 'to_done' in request.POST:
+            form = ChangeStatusToDoneForm(request.POST, request.FILES)
+            if form.is_valid():
+                req.status = 'done'
+                req.design_image = form.cleaned_data['design_image']
+                req.save()
+                messages.success(request, 'Заявка выполнена! Изображение дизайна сохранено.')
+                return redirect('admin_requests')
+    else:
+        form_in_progress = ChangeStatusToInProgressForm()
+        form_done = ChangeStatusToDoneForm()
+
+        return render(request, 'admin/change_status.html', {
+            'req': req,
+            'form_in_progress': form_in_progress,
+            'form_done': form_done,
+        })

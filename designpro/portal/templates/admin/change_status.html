@@ -1,0 +1,36 @@
+{% extends 'portal/base_generic.html' %}
+{% block content %}
+<p>Текущий статус: <strong>{{ req.get_status_display }}</strong></p>
+
+<div>
+    {% if req.status == 'new' %}
+    <div>
+        <div>
+            <div >Перевести в «Принято в работу»</div>
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form_in_progress.as_p }}
+                    <button type="submit" name="to_in_progress">В работу</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div>
+        <div>
+            <div>Перевести в «Выполнено»</div>
+            <div>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form_done.as_p }}
+                    <button type="submit" name="to_done">Завершить и загрузить дизайн</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="{% url 'admin_requests' %}">Назад к списку</a>
+{% endblock %}
