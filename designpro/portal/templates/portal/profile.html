@@ -2,23 +2,27 @@
 {% block content %}
 <div>
     <h2>Мои заявки:</h2>
-    <a href="{% url 'cr_request' %}" >Создать новую заявку</a>
+    <a href="{% url 'cr_request' %}" class="button">Создать новую заявку</a>
 </div>
 
-    <body>
+<body>
+    <table>
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Статус</th>
+            <th>Удалить?</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for req in requests %}
         <tr>
             <td>{{ req.created_at|date:"d.m.Y H:i" }}</td>
             <td>{{ req.title }}</td>
             <td>{{ req.category.name }}</td>
-            <td>
-                <span class="badge
-                    {% if req.status == 'new' %}bg-primary
-                    {% elif req.status == 'in_progress' %}bg-warning text-dark
-                    {% else %}bg-success{% endif %}">
-                    {{ req.get_status_display }}
-                </span>
-            </td>
+            <td><span>{{ req.get_status_display }}</span></td>
             <td>
                 {% if req.status == 'new' %}
                 <a href="{% url 'delete_request' req.pk %}">Удалить</a>
@@ -28,7 +32,8 @@
             </td>
         </tr>
         {% empty %}
-        <tr><td colspan="5">У вас пока нет заявок.</td></tr>
+        <p>У вас пока нет заявок.</p>
         {% endfor %}
-    </body>
+    </tbody>
+</body>
 {% endblock %}

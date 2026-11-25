@@ -67,5 +67,8 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ('name',)
-        widgets = ['name']
-        labels = {'name': 'Название категории'}
+        widgets = {'name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'name': 'Название категории',
+        }

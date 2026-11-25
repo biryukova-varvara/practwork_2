@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Design.pro</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+<div class="sidebar">
     <ul class="sidebar-nav">
-      <div class="container">
-        <li><a href="{% url 'home' %}">Design.pro</a></li>
+        <li class="brand"><a href="{% url 'home' %}">Design.pro</a></li>
         {% if user.is_authenticated %}
-        <span>{{ user.username }}</span>
+        <span class="user-info">{{ user.username }}</span>
         <li><a href="{% url 'profile' %}">Ваш профиль</a></li>
         <li>
               <form method="post" action="{% url 'logout' %}" >
                 {% csrf_token %}
-                <button type="submit">Выход</button>
+                <button type="submit" class="logout-btn">Выход</button>
               </form>
         </li>
         {% else %}
@@ -22,11 +24,14 @@
         <li><a href="{% url 'registration' %}">Регистрация</a></li>
         {% endif %}
         {% if user.is_staff %}
-            <a href="{% url 'admin_requests' %}">Управление заявками</a>
+            <div class="admin-links">
+                <a href="{% url 'admin_requests' %}">Управление заявками</a>
             <a href="{% url 'manage_categories' %}">Управление категориями</a>
+            </div>
         {% endif %}
-      </div>
     </ul>
-    <div>{% block content %}{% endblock %}
+</div>
+    <div class="main-content">{% block content %}{% endblock %}</div>
+    </div>
 </body>
 </html>

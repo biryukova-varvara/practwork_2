@@ -4,7 +4,7 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Сохранить</button>
-    <a href="{% url 'manage_categories' %}">Отмена</a>
+    <button type="submit" class="button">Сохранить</button>
+    <a href="{% url 'manage_categories' %}" class="btn">Отмена</a>
 </form>
 {% endblock %}

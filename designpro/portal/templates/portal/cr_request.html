@@ -4,7 +4,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Отправить заявку</button>
-    <a href="{% url 'profile' %}">Отмена</a>
+    <button type="submit" class="button">Отправить заявку</button>
+    <a href="{% url 'profile' %}" class="button">Отмена</a>
 </form>
 {% endblock %}

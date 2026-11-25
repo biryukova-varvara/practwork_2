@@ -9,8 +9,8 @@
 <h3>Наши последние выполненные работы:</h3>
 <div>
     {% for req in done_requests %}
-    <div>
-        <div>
+    <div class="card-grid">
+        <div class="card">
             {% if req.photo %}
                 <img src="{{ req.photo.url }}" alt="{{ req.title }}">
             {% else %}
@@ -29,7 +29,7 @@
     </div>
     {% empty %}
     <div>
-        <p class="text-muted">Пока нет выполненных заявок.</p>
+        <p>Пока нет выполненных заявок.</p>
     </div>
     {% endfor %}
 </div>

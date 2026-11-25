@@ -148,7 +148,7 @@ def delete_category(request, pk):
 
     if request.method == 'POST':
         category.delete()
-        messages.success(request, f'Категория "{category.name}" и все её заявки удалены.')
+        messages.success(request, 'Категория "{category.name}" и все её заявки удалены.')
         return redirect('manage_categories')
 
     return render(request, 'admin/confirm_delete_category.html', {'category': category})
