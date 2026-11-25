@@ -1,0 +1,8 @@
+{% extends 'portal/base_generic.html' %}
+{% block content %}
+<h1>Добро пожаловать в Design.pro</h1>
+<p>Студия креативного дизайна интерьера</p>
+{% if not user.is_authenticated %}
+    <p>Пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'registration' %}">зарегистрируйтесь</a>, чтобы создавать заявки.</p>
+{% endif %}
+{% endblock %}
