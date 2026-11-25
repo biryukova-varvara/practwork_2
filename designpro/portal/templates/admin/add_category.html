@@ -1,0 +1,10 @@
+{% extends 'portal/base_generic.html' %}
+{% block content %}
+<h2>Добавление категории</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+    <a href="{% url 'manage_categories' %}">Отмена</a>
+</form>
+{% endblock %}

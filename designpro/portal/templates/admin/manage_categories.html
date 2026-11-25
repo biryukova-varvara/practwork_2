@@ -1,0 +1,34 @@
+{% extends 'portal/base_generic.html' %}
+{% block content %}
+<div>
+    <h2>Управление категориями</h2>
+    <a href="{% url 'add_category' %}">Добавить категорию</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cat in categories %}
+        <tr>
+            <td>{{ cat.id }}</td>
+            <td>{{ cat.name }}</td>
+            <td>
+                <a href="{% url 'delete_category' cat.pk %}">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td>Категорий пока нет.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'admin_requests' %}">Назад к заявкам</a>
+{% endblock %}

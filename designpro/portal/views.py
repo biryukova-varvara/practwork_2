@@ -121,3 +121,34 @@ def change_status(request, pk):
             'form_in_progress': form_in_progress,
             'form_done': form_done,
         })
+
+
+from .forms import CategoryForm
+
+@staff_member_required
+def manage_categories(request):
+    categories = Category.objects.all()
+    return render(request, 'admin/manage_categories.html', {'categories': categories})
+
+@staff_member_required
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Категория успешно добавлена.')
+            return redirect('manage_categories')
+    else:
+        form = CategoryForm()
+    return render(request, 'admin/add_category.html', {'form': form})
+
+@staff_member_required
+def delete_category(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+
+    if request.method == 'POST':
+        category.delete()
+        messages.success(request, f'Категория "{category.name}" и все её заявки удалены.')
+        return redirect('manage_categories')
+
+    return render(request, 'admin/confirm_delete_category.html', {'category': category})

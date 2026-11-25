@@ -17,4 +17,7 @@ urlpatterns += [
     path('request/<int:pk>/delete/', views.delete_request, name='delete_request'),
     path('manage/requests/', views.admin_requests, name='admin_requests'),
     path('manage/request/<int:pk>/change-status/', views.change_status, name='change_status'),
+    path('manage/categories/', views.manage_categories, name='manage_categories'),
+    path('manage/categories/add/', views.add_category, name='add_category'),
+    path('manage/categories/<int:pk>/delete/', views.delete_category, name='delete_category'),
 ]

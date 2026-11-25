@@ -22,7 +22,8 @@
         <li><a href="{% url 'registration' %}">Регистрация</a></li>
         {% endif %}
         {% if user.is_staff %}
-            <a href="{% url 'admin_requests' %}">Для администраторов сайта</a>
+            <a href="{% url 'admin_requests' %}">Управление заявками</a>
+            <a href="{% url 'manage_categories' %}">Управление категориями</a>
         {% endif %}
       </div>
     </ul>

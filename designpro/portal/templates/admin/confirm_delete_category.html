@@ -1,0 +1,12 @@
+{% extends 'portal/base_generic.html' %}
+{% block content %}
+<div>
+    <h4>Вы уверены, что хотите удалить категорию <strong>"{{ category.name }}"</strong>?</h4>
+    <p>Внимание! Вместе с этой категорией будут <strong>удалены все связанные с ней заявки</strong>!</p>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, удалить всё</button>
+    <a href="{% url 'manage_categories' %}">Отмена</a>
+</form>
+{% endblock %}

@@ -54,10 +54,18 @@ class ChangeStatusToInProgressForm(forms.Form):
         required=True
     )
 
-
 class ChangeStatusToDoneForm(forms.Form):
     design_image = forms.ImageField(
         label='Изображение дизайна (обязательно)',
         widget=forms.FileInput(attrs={'class': 'form-control'}),
         required=True
     )
+
+from .models import Category
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('name',)
+        widgets = ['name']
+        labels = {'name': 'Название категории'}

@@ -126,6 +126,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_REDIRECT_URL = 'profile'
 LOGIN_URL = 'login'
-LOGOUT_REDIRECT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'home'
 
 AUTH_USER_MODEL = 'portal.User'
