@@ -1,10 +1,31 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 
 class User(AbstractUser):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(
+        max_length=150,
+        verbose_name='Имя',
+        validators=[
+            RegexValidator(
+                regex=r'^[А-Яа-яЁё\s\-]+$',
+                message='Имя пользователя может содержать только кириллические буквы, дефис и пробелы'
+            )
+        ]
+    )
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        verbose_name='Логин',
+        validators=[
+            RegexValidator(
+                regex=r'^[a-zA-Z\-]+$',
+                message='Логин может содержать только латиницу и дефис'
+            )
+        ]
+    )
     email = models.EmailField(max_length=100, unique=True)
+    last_name = None
 
     REQUIRED_FIELDS = ['first_name', 'email']
 

@@ -4,8 +4,14 @@
     <h2>Мои заявки:</h2>
     <a href="{% url 'cr_request' %}" class="button">Создать новую заявку</a>
 </div>
-
-<body>
+<form method="get" class="mb-4" style="display: flex; align-items: center; gap: 10px;">
+    <label for="status" style="margin: 0; font-weight: bold;">Фильтр по статусу:</label>
+    <select name="status" id="status" class="form-control" style="width: 200px;" onchange="this.form.submit()">
+        <option value="">Все заявки</option>
+        <option value="new" {% if status_filter == 'new' %}selected{% endif %}>Новая</option>
+        <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>Принято в работу</option>
+        <option value="done" {% if status_filter == 'done' %}selected{% endif %}>Выполнено</option>
+    </select>
     <table>
     <thead>
         <tr>
@@ -35,5 +41,4 @@
         <p>У вас пока нет заявок.</p>
         {% endfor %}
     </tbody>
-</body>
 {% endblock %}

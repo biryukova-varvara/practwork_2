@@ -6,6 +6,8 @@
     <p>Пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'registration' %}">зарегистрируйтесь</a>, чтобы создавать заявки.</p>
 {% endif %}
 
+<h3>Заявок в работе:{{ in_progress_count }}</h3>
+
 <h3>Наши последние выполненные работы:</h3>
 <div>
     {% for req in done_requests %}

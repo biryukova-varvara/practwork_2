@@ -102,9 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -129,3 +129,7 @@ LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'home'
 
 AUTH_USER_MODEL = 'portal.User'
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 3 * 1024 * 1024
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 3 * 1024 * 1024

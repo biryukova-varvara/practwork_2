@@ -20,11 +20,31 @@ class RegistrationForm(UserCreationForm):
         required=True,
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
+    password1 = forms.CharField(
+        label='Пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+    password2 = forms.CharField(
+        label='Повторите пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+    consent = forms.BooleanField(
+        label='Согласие на обработку персональных данных',
+        required=True,
+        error_messages={
+            'required': 'Для регистрации на сайте необходимо дать согласие на обработку персональных данных'
+        },
+        widget=forms.CheckboxInput(attrs={'class': 'form-checkbox'})
+    )
 
     class Meta:
         model = User
         fields = ('first_name', 'username', 'email', 'password1', 'password2')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].help_text = None
+        self.fields['password2'].help_text = None
 
 from .models import Request
 
@@ -45,6 +65,18 @@ class RequestForm(forms.ModelForm):
             'category': 'Категория',
             'photo': 'Фото помещения',
         }
+
+        def clean_photo(self):
+            photo = self.cleaned_data.get('photo')
+            if photo:
+                ext = photo.name.split('.')[-1].lower()
+                if ext not in ['jpg', 'jpeg', 'png', 'bmp']:
+                    raise forms.ValidationError('Допустимые форматы файла: jpg, jpeg, png, bmp.')
+
+                if photo.size > 2 * 1024 * 1024:
+                    raise forms.ValidationError('Максимальный размер файла — 2 Мб.')
+
+            return photo
 
 class ChangeStatusToInProgressForm(forms.Form):
     comment = forms.CharField(

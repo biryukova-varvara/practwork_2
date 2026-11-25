@@ -5,11 +5,15 @@ from .forms import RegistrationForm
 from .models import Request
 
 def home(request):
-    done_requests = Request.objects.filter(status='done').order_by('-created_at')
+    in_progress_count = Request.objects.filter(status='in_progress').count()
+    done_requests = Request.objects.filter(status='done').order_by('-created_at')[:4]
     context = {
         'done_requests': done_requests,
     }
-    return render(request, 'portal/home.html', context)
+    return render(request, 'portal/home.html', {
+        'done_requests': done_requests,
+        'in_progress_count': in_progress_count,
+    })
 
 def register(request):
     if request.method == 'POST':
@@ -33,10 +37,18 @@ from django.contrib import messages
 from .forms import RegistrationForm, RequestForm
 from .models import Request
 
+
 @login_required
 def profile(request):
+    status_filter = request.GET.get('status', '')
     user_requests = Request.objects.filter(user=request.user)
-    return render(request, 'portal/profile.html', {'requests': user_requests})
+    if status_filter:
+        user_requests = user_requests.filter(status=status_filter)
+    context = {
+        'requests': user_requests,
+        'status_filter': status_filter,
+    }
+    return render(request, 'portal/profile.html', context)
 
 @login_required
 def create_request(request):
@@ -49,8 +61,11 @@ def create_request(request):
             req.save()
             messages.success(request, 'Заявка успешно создана!')
             return redirect('profile')
+        else:
+            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
     else:
         form = RequestForm()
+
     return render(request, 'portal/cr_request.html', {'form': form})
 
 
