@@ -2,36 +2,35 @@
 {% block content %}
 <h2>Панель управления заявками:</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Пользователь</th>
-            <th>Название</th>
-            <th>Категория</th>
-            <th>Статус</th>
-            <th>Действия</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for req in requests %}
-        <tr>
-            <td>{{ req.id }}</td>
-            <td>{{ req.user.username }}</td>
-            <td>{{ req.title }}</td>
-            <td>{{ req.category.name }}</td>
-            <td>{{ req.get_status_display }}</td>
-            <td>
-                {% if req.status == 'new' %}
-                    <a href="{% url 'change_status' req.pk %}">Изменить статус</a>
-                {% elif req.status == 'in_progress' %}
-                    <a href="{% url 'change_status' req.pk %}">Изменить статус</a>
-                {% else %}
-                    <span>Обработана</span>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div>
+    {% for req in requests %}
+    <div>
+        <div>
+            <div>
+                <span>#{{ req.id }}</span>
+                <h4>{{ req.title }}</h4>
+            </div>
+            <span>
+                {{ req.get_status_display }}
+            </span>
+        </div>
+        <div>
+            <p><strong>Пользователь:</strong> {{ req.user.username }}</p>
+            <p><strong>Категория:</strong> {{ req.category.name }}</p>
+            <p><strong>Дата:</strong> {{ req.created_at|date:"d.m.Y H:i" }}</p>
+        </div>
+        <div>
+            {% if req.status == 'new' or req.status == 'in_progress' %}
+                <a href="{% url 'change_status' req.pk %}">Изменить статус</a>
+            {% else %}
+                <span>Заявка выполнена</span>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div>
+        <p>Заявок пока нет.</p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -1,44 +1,53 @@
 {% extends 'portal/base_generic.html' %}
 {% block content %}
-<div>
-    <h2>Мои заявки:</h2>
-    <a href="{% url 'cr_request' %}" class="button">Создать новую заявку</a>
+<div class="profile-header">
+    <div class="profile-title">
+        <h2>Мои заявки</h2>
+        <a href="{% url 'cr_request' %}" class="btn btn-success">Создать новую заявку</a>
+    </div>
+
+    <form method="get" class="filter-form">
+        <label for="status">Фильтр по статусу:</label>
+        <select name="status" id="status" onchange="this.form.submit()">
+            <option value="">Все заявки</option>
+            <option value="new" {% if status_filter == 'new' %}selected{% endif %}>Новая</option>
+            <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>Принято в работу</option>
+            <option value="done" {% if status_filter == 'done' %}selected{% endif %}>Выполнено</option>
+        </select>
+    </form>
 </div>
-<form method="get" class="mb-4" style="display: flex; align-items: center; gap: 10px;">
-    <label for="status" style="margin: 0; font-weight: bold;">Фильтр по статусу:</label>
-    <select name="status" id="status" class="form-control" style="width: 200px;" onchange="this.form.submit()">
-        <option value="">Все заявки</option>
-        <option value="new" {% if status_filter == 'new' %}selected{% endif %}>Новая</option>
-        <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>Принято в работу</option>
-        <option value="done" {% if status_filter == 'done' %}selected{% endif %}>Выполнено</option>
-    </select>
-    <table>
-    <thead>
-        <tr>
-            <th>Дата</th>
-            <th>Название</th>
-            <th>Категория</th>
-            <th>Статус</th>
-            <th>Удалить?</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for req in requests %}
-        <tr>
-            <td>{{ req.created_at|date:"d.m.Y H:i" }}</td>
-            <td>{{ req.title }}</td>
-            <td>{{ req.category.name }}</td>
-            <td><span>{{ req.get_status_display }}</span></td>
-            <td>
-                {% if req.status == 'new' %}
-                <a href="{% url 'delete_request' req.pk %}">Удалить</a>
-                {% else %}
-                <span>Эту заявку нельзя удалить</span>
-                {% endif %}
-            </td>
-        </tr>
-        {% empty %}
+</div>
+
+<div class="requests-list-container">
+    {% for req in requests %}
+
+    <div>
+        <div>
+            <h4>{{ req.title }}</h4>
+            <span>{{ req.get_status_display }}</span>
+        </div>
+
+        <div>
+            <p><strong>Дата:</strong> {{ req.created_at|date:"d.m.Y H:i" }}</p>
+            <p><strong>Категория:</strong> {{ req.category.name }}</p>
+            {% if req.description %}
+                <p><strong>Описание:</strong> {{ req.description }}</p>
+            {% endif %}
+        </div>
+
+        <div>
+            {% if req.status == 'new' %}
+                <a href="{% url 'delete_request' req.pk %}">Удалить заявку</a>
+            {% else %}
+                <span>Заявка в обработке, удаление недоступно</span>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div>
         <p>У вас пока нет заявок.</p>
-        {% endfor %}
-    </tbody>
+        <a href="{% url 'cr_request' %}">Создать первую заявку</a>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

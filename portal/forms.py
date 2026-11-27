@@ -82,8 +82,8 @@ class ChangeStatusToInProgressForm(forms.Form):
     comment = forms.CharField(
         label='Комментарий',
         widget=forms.Textarea(
-            attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Напишите, что берете заявку в работу...'}),
-        required=True
+            attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Напишите, что будет сделано'}),
+        required=False
     )
 
 class ChangeStatusToDoneForm(forms.Form):
