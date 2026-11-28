@@ -79,9 +79,10 @@ class RequestForm(forms.ModelForm):
             return photo
 
 class ChangeStatusToInProgressForm(forms.Form):
-    design_image = forms.ImageField(
-        label='Изображение дизайна',
-        widget=forms.FileInput(attrs={'class': 'form-control'}),
+    comment = forms.CharField(
+        label='Комментарий',
+        widget=forms.Textarea(
+            attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Напишите, что будет сделано'}),
         required=False
     )
 
