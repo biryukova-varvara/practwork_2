@@ -4,7 +4,7 @@ from .models import User
 
 class RegistrationForm(UserCreationForm):
     first_name = forms.CharField(
-        label='Имя',
+        label='ФМО',
         max_length=150,
         required=True,
         widget=forms.TextInput(attrs={'class': 'form-control'})
@@ -54,7 +54,7 @@ class RequestForm(forms.ModelForm):
         fields = ('title', 'description', 'category', 'photo')
         widgets = {
             'Название': forms.TextInput(attrs={'class': 'form-control'}),
-            'Описание': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'Описание': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'Категория': forms.Select(attrs={'class': 'form-control'}),
             'Фото': forms.FileInput(attrs={'class': 'form-control'}),
         }
@@ -88,9 +88,9 @@ class ChangeStatusToInProgressForm(forms.Form):
 
 class ChangeStatusToDoneForm(forms.Form):
     design_image = forms.ImageField(
-        label='Изображение дизайна (обязательно)',
+        label='Изображение дизайна',
         widget=forms.FileInput(attrs={'class': 'form-control'}),
-        required=True
+        required=False
     )
 
 from .models import Category

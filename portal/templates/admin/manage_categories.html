@@ -8,13 +8,7 @@
 <div>
     {% for cat in categories %}
     <div>
-        <div>
-            <span>#{{ cat.id }}</span>
-            <span>{{ cat.name }}</span>
-        </div>
-        <div>
-            <a href="{% url 'delete_category' cat.pk %}">Удалить</a>
-        </div>
+        <span>{{ cat.name }} <a href="{% url 'delete_category' cat.pk %}">Удалить</a></span>
     </div>
     {% empty %}
     <div>

@@ -62,7 +62,7 @@ def create_request(request):
             messages.success(request, 'Заявка успешно создана!')
             return redirect('profile')
         else:
-            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
+            messages.error(request, 'Пожалуйста, исправьте ошибки.')
     else:
         form = RequestForm()
 
@@ -102,13 +102,12 @@ def change_status(request, pk):
     req = get_object_or_404(Request, pk=pk)
 
     if req.status == 'done':
-        messages.error(request, 'Смена статуса невозможна: заявка уже выполнена.')
+        messages.error(request, 'Смена статуса невозможнаю')
         return redirect('admin_requests')
 
     if request.method == 'POST':
         if 'to_in_progress' in request.POST:
             if req.status == 'in_progress':
-                messages.warning(request, 'Заявка уже находится в работе.')
                 return redirect('admin_requests')
 
             form = ChangeStatusToInProgressForm(request.POST)
@@ -116,7 +115,6 @@ def change_status(request, pk):
                 req.status = 'in_progress'
                 req.comment = form.cleaned_data['comment']
                 req.save()
-                messages.success(request, 'Заявка переведена в статус «Принято в работу».')
                 return redirect('admin_requests')
 
         elif 'to_done' in request.POST:
@@ -125,7 +123,6 @@ def change_status(request, pk):
                 req.status = 'done'
                 req.design_image = form.cleaned_data['design_image']
                 req.save()
-                messages.success(request, 'Заявка выполнена! Изображение дизайна сохранено.')
                 return redirect('admin_requests')
     else:
         form_in_progress = ChangeStatusToInProgressForm()

@@ -5,7 +5,7 @@ from django.core.validators import RegexValidator
 class User(AbstractUser):
     first_name = models.CharField(
         max_length=150,
-        verbose_name='Имя',
+        verbose_name='ФИО',
         validators=[
             RegexValidator(
                 regex=r'^[А-Яа-яЁё\s\-]+$',
